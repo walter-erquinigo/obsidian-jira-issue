@@ -49,7 +49,7 @@ class InlineIssueWidget extends WidgetType {
             if (cachedIssue.isError) {
                 this._htmlContainer.replaceChildren(RC.renderIssueError(this._issueKey, cachedIssue.data as string))
             } else {
-                this._htmlContainer.replaceChildren(RC.renderIssue(cachedIssue.data as IJiraIssue, this._compact))
+                this._htmlContainer.replaceChildren(RC.renderIssue(cachedIssue.data as IJiraIssue, this._compact, { showIssueTypeIcon: false }))
             }
         } else {
             this._htmlContainer.replaceChildren(RC.renderLoadingItem(this._issueKey))
@@ -58,7 +58,7 @@ class InlineIssueWidget extends WidgetType {
                 fetchImages: false,
             }).then(newIssue => {
                 const issue = ObjectsCache.add(this._issueKey, newIssue).data as IJiraIssue
-                this._htmlContainer.replaceChildren(RC.renderIssue(issue, this._compact))
+                this._htmlContainer.replaceChildren(RC.renderIssue(issue, this._compact, { showIssueTypeIcon: false }))
             }).catch(err => {
                 ObjectsCache.add(this._issueKey, err, true)
                 this._htmlContainer.replaceChildren(RC.renderIssueError(this._issueKey, err))

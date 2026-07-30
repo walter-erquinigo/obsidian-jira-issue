@@ -104,10 +104,10 @@ export default {
         el.replaceChildren(this.renderContainer([tagsRow]))
     },
 
-    renderIssue(issue: IJiraIssue, compact = false): HTMLElement {
+    renderIssue(issue: IJiraIssue, compact = false, options: { showIssueTypeIcon?: boolean } = {}): HTMLElement {
         const tagsRow = createDiv('ji-tags has-addons')
         this.renderAccountColorBand(issue.account, tagsRow)
-        if (issue.fields.issuetype.iconUrl) {
+        if ((options.showIssueTypeIcon ?? true) && issue.fields.issuetype.iconUrl) {
             createEl('img', {
                 cls: 'fit-content',
                 attr: { src: issue.fields.issuetype.iconUrl, alt: issue.fields.issuetype.name },

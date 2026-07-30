@@ -13,7 +13,8 @@ roughly 10-13 seconds and are performed sequentially.
 This fork adds a `fetchImages` option to `JiraClient.getIssue()` and disables
 image prefetching for inline issues in Reading View and Live Preview. Jira
 issue blocks, searches, and public API calls keep the upstream default of
-fetching images.
+fetching images. Inline renderers also omit the issue-type icon so an
+authenticated image URL cannot produce a broken image placeholder.
 
 The Obsidian plugin ID is `obsidian-jira-issue-fast`, allowing it to be tested
 beside the official plugin. Never enable both plugins simultaneously because

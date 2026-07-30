@@ -40,6 +40,39 @@ describe('RenderingCommon', () => {
         })
     })
 
+    describe('renderIssue', () => {
+        test('can hide the issue type icon', () => {
+            const createElementMock = jest.fn((_tag?: string, _options?: any) => ({}))
+            ;(global as any).createDiv = jest.fn(() => ({}))
+            ;(global as any).createSpan = jest.fn(() => ({}))
+            ;(global as any).createEl = createElementMock
+
+            RC.renderIssue({
+                key: 'TILE-1349',
+                account: {
+                    host: 'https://jira.example.com',
+                    color: '#000000',
+                },
+                fields: {
+                    issuetype: {
+                        iconUrl: 'https://jira.example.com/icon.png',
+                        name: 'Initiative',
+                    },
+                    summary: 'Tile Debugging',
+                    status: {
+                        name: 'In Progress',
+                        description: '',
+                        statusCategory: {
+                            colorName: 'yellow',
+                        },
+                    },
+                },
+            } as any, false, { showIssueTypeIcon: false })
+
+            expect(createElementMock.mock.calls.some(([tag]) => tag === 'img')).toBe(false)
+        })
+    })
+
     afterEach(() => {
         jest.clearAllMocks()
     })

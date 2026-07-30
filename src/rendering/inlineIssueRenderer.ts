@@ -51,13 +51,13 @@ export const InlineIssueRenderer = async (el: HTMLElement, ctx: MarkdownPostProc
             if (cachedIssue.isError) {
                 value.replaceChildren(RC.renderIssueError(issueKey, cachedIssue.data as string))
             } else {
-                value.replaceChildren(RC.renderIssue(cachedIssue.data as IJiraIssue, compact))
+                value.replaceChildren(RC.renderIssue(cachedIssue.data as IJiraIssue, compact, { showIssueTypeIcon: false }))
             }
         } else {
             value.replaceChildren(RC.renderLoadingItem(issueKey))
             JiraClient.getIssue(issueKey, { fetchImages: false }).then(newIssue => {
                 const issue = ObjectsCache.add(issueKey, newIssue).data as IJiraIssue
-                value.replaceChildren(RC.renderIssue(issue, compact))
+                value.replaceChildren(RC.renderIssue(issue, compact, { showIssueTypeIcon: false }))
             }).catch(err => {
                 ObjectsCache.add(issueKey, err, true)
                 value.replaceChildren(RC.renderIssueError(issueKey, err))
