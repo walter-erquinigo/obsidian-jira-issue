@@ -210,10 +210,11 @@ async function fetchIssueImages(issue: IJiraIssue) {
 
 export default {
 
-    async getIssue(issueKey: string, options: { fields?: string[], account?: IJiraIssueAccountSettings } = {}): Promise<IJiraIssue> {
+    async getIssue(issueKey: string, options: { fields?: string[], account?: IJiraIssueAccountSettings, fetchImages?: boolean } = {}): Promise<IJiraIssue> {
         const opt = {
             fields: options.fields || [],
             account: options.account || null,
+            fetchImages: options.fetchImages ?? true,
         }
         const queryParameters = new URLSearchParams({
             fields: opt.fields.join(','),
@@ -226,7 +227,9 @@ export default {
                 queryParameters: queryParameters,
             }
         ) as IJiraIssue
-        await fetchIssueImages(issue)
+        if (opt.fetchImages) {
+            await fetchIssueImages(issue)
+        }
         return issue
     },
 

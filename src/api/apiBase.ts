@@ -20,7 +20,7 @@ function cacheWrapper<TFunc extends (...args: any[]) => any>(func: TFunc)
     }
 }
 
-export async function getIssue(issueKey: string, options: { fields?: string[], account?: IJiraIssueAccountSettings } = {}): Promise<IJiraIssue> {
+export async function getIssue(issueKey: string, options: { fields?: string[], account?: IJiraIssueAccountSettings, fetchImages?: boolean } = {}): Promise<IJiraIssue> {
     return cacheWrapper(JiraClient.getIssue)(issueKey, options)
 }
 

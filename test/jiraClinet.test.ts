@@ -8,6 +8,40 @@ const defaultHeaders = { 'content-type': 'application/json' }
 
 describe('JiraClient', () => {
     describe('Positive tests', () => {
+        test('getIssue can skip image prefetching', async () => {
+            const issueTypeIconUrl = `${TestAccountOpen.host}/images/icons/issuetypes/task.svg`
+            requestUrlMock.mockReturnValue({
+                status: 200,
+                headers: defaultHeaders,
+                json: {
+                    key: kIssueKey,
+                    fields: {
+                        issuetype: {
+                            iconUrl: issueTypeIconUrl,
+                        },
+                    },
+                },
+            } as any)
+
+            const issue = await JiraClient.getIssue(kIssueKey, {
+                account: TestAccountOpen,
+                fetchImages: false,
+            })
+
+            expect(requestUrlMock).toHaveBeenCalledTimes(1)
+            expect(requestUrlMock.mock.calls[0][0]).toEqual({
+                contentType: 'application/json',
+                headers: {
+                    "Accept": "application/json",
+                    "User-Agent": "obsidian-jira-issue-plugin",
+                    "X-Atlassian-Token": "no-check",
+                },
+                method: 'GET',
+                url: `https://test-company.atlassian.net/rest/api/latest/issue/${kIssueKey}?fields=`,
+            })
+            expect(issue.fields.issuetype.iconUrl).toEqual(issueTypeIconUrl)
+        })
+
         // test('getIssue minimal', async () => {
         //     requestUrlMock.mockReturnValue({ status: 200, json: {} } as any)
         //     expect(await JiraClient.getIssue(kIssueKey)).toEqual(true)

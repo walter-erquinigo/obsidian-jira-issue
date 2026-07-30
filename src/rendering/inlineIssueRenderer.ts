@@ -55,7 +55,7 @@ export const InlineIssueRenderer = async (el: HTMLElement, ctx: MarkdownPostProc
             }
         } else {
             value.replaceChildren(RC.renderLoadingItem(issueKey))
-            JiraClient.getIssue(issueKey).then(newIssue => {
+            JiraClient.getIssue(issueKey, { fetchImages: false }).then(newIssue => {
                 const issue = ObjectsCache.add(issueKey, newIssue).data as IJiraIssue
                 value.replaceChildren(RC.renderIssue(issue, compact))
             }).catch(err => {

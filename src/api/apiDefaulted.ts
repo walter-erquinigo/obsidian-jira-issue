@@ -2,7 +2,7 @@ import { IJiraIssue, IJiraSearchResults, toDefaultedIssue } from "../interfaces/
 import { IJiraIssueAccountSettings } from "../interfaces/settingsInterfaces"
 import API from "./api"
 
-export async function getIssueDefaulted(issueKey: string, options: { fields?: string[], account?: IJiraIssueAccountSettings } = {}): Promise<IJiraIssue> {
+export async function getIssueDefaulted(issueKey: string, options: { fields?: string[], account?: IJiraIssueAccountSettings, fetchImages?: boolean } = {}): Promise<IJiraIssue> {
     return toDefaultedIssue(await API.base.getIssue(issueKey, options))
 }
 
